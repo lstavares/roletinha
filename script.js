@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cells.forEach(cell => {
         cell.addEventListener('input', handleInput);
         cell.addEventListener('keypress', handleKeyPress);
+        cell.addEventListener('blur', handleBlur);  // Adiciona o evento blur para validação de duplicidade
     });
 
     updateTable();
@@ -17,6 +18,17 @@ const allowedNumbers = [...redGroup, ...greenGroup, ...blueGroup, 0];
 
 let chart;
 
+function handleBlur(event) {
+    const value = event.target.textContent;
+
+    if (value !== '' && isDuplicate(value, event.target)) {
+        alert('Número duplicado não é permitido.');
+        event.target.textContent = '';
+    }
+
+    updateTable();
+}
+
 function handleInput(event) {
     let value = event.target.textContent;
     
@@ -27,13 +39,8 @@ function handleInput(event) {
     if (value.length > 1 && value[0] === '0') {
         value = value.substring(1);
     }
-    
-    if (value !== '' && !isDuplicate(value, event.target)) {
-        event.target.textContent = value;
-    } else {
-        event.target.textContent = '';
-        alert('Número ' +value+ ' já consta na tabela.');
-    }
+
+    event.target.textContent = value;
     
     updateTable();
 }
