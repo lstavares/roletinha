@@ -28,7 +28,12 @@ function handleInput(event) {
         value = value.substring(1);
     }
     
-    event.target.textContent = value;
+    if (value !== '' && !isDuplicate(value, event.target)) {
+        event.target.textContent = value;
+    } else {
+        event.target.textContent = '';
+        alert('Número ' +value+ ' já consta na tabela.');
+    }
     
     updateTable();
 }
@@ -37,6 +42,19 @@ function handleKeyPress(event) {
     if (!/^\d$/.test(event.key)) {
         event.preventDefault();
     }
+}
+
+function isDuplicate(value, currentCell) {
+    const cells = document.querySelectorAll('td[contenteditable="true"]');
+    let duplicate = false;
+
+    cells.forEach(cell => {
+        if (cell !== currentCell && cell.textContent === value) {
+            duplicate = true;
+        }
+    });
+
+    return duplicate;
 }
 
 function updateTable() {
