@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cells.forEach(cell => {
         cell.addEventListener('input', handleInput);
         cell.addEventListener('keypress', handleKeyPress);
-        cell.addEventListener('blur', handleBlur);  // Adiciona o evento blur para validação de duplicidade
+//        cell.addEventListener('blur', handleBlur);  // Adiciona o evento blur para validação de duplicidade
     });
 
     updateTable();
