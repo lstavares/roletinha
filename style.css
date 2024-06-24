@@ -85,13 +85,40 @@ td[contenteditable="true"] {
 }
 
 button {
-    margin: 0 5px;
-    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 5px;
 }
 
 button:last-of-type {
     background-color: red;
     color: white;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.red {
+    background-color: red;
+}
+.green {
+    background-color: green;
+}
+.blue {
+    background-color: blue;
+}
+.black {
+    background-color: black;
+}
+.selected {
+    outline: 2px solid #000;
+}
+
+input[type="text"] {
+    width: 200px;
+    padding: 5px;
+    margin-right: 10px;
 }

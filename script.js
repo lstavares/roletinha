@@ -1,10 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('number-input');
+    input.addEventListener('keypress', handleKeyPress);
+    input.addEventListener('input', handleInput);
+
     const cells = document.querySelectorAll('td[contenteditable="true"]');
 
     cells.forEach(cell => {
-        cell.addEventListener('input', handleInput);
         cell.addEventListener('keypress', handleKeyPress);
-//        cell.addEventListener('blur', handleBlur);  // Adiciona o evento blur para validação de duplicidade
+        cell.addEventListener('input', handleInput);
     });
 
     updateTable();
@@ -18,19 +21,9 @@ const allowedNumbers = [...redGroup, ...greenGroup, ...blueGroup, 0];
 
 let chart;
 
-function handleBlur(event) {
-    const value = event.target.textContent;
-
-    if (value !== '' && isDuplicate(value, event.target)) {
-        alert('Número duplicado não é permitido.');
-        event.target.textContent = '';
-    }
-
-    updateTable();
-}
-
 function handleInput(event) {
-    let value = event.target.textContent;
+    let value = event.target.value;
+    const input_number = document.querySelectorAll('#number-input');
     
     // Remove non-numeric characters
     value = value.replace(/[^0-9]/g, '');
@@ -39,33 +32,76 @@ function handleInput(event) {
     if (value.length > 1 && value[0] === '0') {
         value = value.substring(1);
     }
-
-    event.target.textContent = value;
     
-    updateTable();
+    if (!allowedNumbers.includes(value)) {
+        cell.textContent = '';
+    }
+
+    event.target.value = value;
 }
 
 function handleKeyPress(event) {
+    const input_number = document.querySelectorAll('#number-input');
+    let value = event.target.value;
+
     if (!/^\d$/.test(event.key)) {
         event.preventDefault();
     }
+
+    if (!isNaN(value) & value.length == 2 & !allowedNumbers.includes(value)) {
+        event.preventDefault();
+        event.target.value = '';
+    }
 }
 
-function isDuplicate(value, currentCell) {
-    const cells = document.querySelectorAll('td[contenteditable="true"]');
-    let duplicate = false;
+function addNumber(event) {
+    const input = document.getElementById('number-input');
+    const value = parseInt(input.value);
 
-    cells.forEach(cell => {
-        if (cell !== currentCell && cell.textContent === value) {
-            duplicate = true;
-        }
+    if (input.value === '') {
+        alert('Por favor, insira um número.');
+        return;
+    }
+
+    if (isNaN(value) | !allowedNumbers.includes(value)) {
+        alert('Número inválido. Por favor, insira um número válido.');
+        event.preventDefault();
+        event.target.value = '';
+        return;
+    }
+
+    shiftTable();
+    const firstCell = document.querySelector('#main-table tr:first-child td:first-child');
+    firstCell.textContent = input.value;
+    updateTable();
+    input.value = '';
+}
+
+function shiftTable() {
+    const rows = document.querySelectorAll('#main-table tr');
+    let prevValue = null;
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        cells.forEach(cell => {
+            const temp = cell.textContent;
+            cell.textContent = prevValue;
+            prevValue = temp;
+        });
     });
 
-    return duplicate;
+    if (rows[rows.length - 1].querySelector('td:last-child').textContent !== '') {
+        const newRow = document.createElement('tr');
+        for (let i = 0; i < 10; i++) {
+            const newCell = document.createElement('td');
+            newRow.appendChild(newCell);
+        }
+        document.getElementById('main-table').appendChild(newRow);
+    }
 }
 
 function updateTable() {
-    const cells = document.querySelectorAll('td[contenteditable="true"]');
+    const cells = document.querySelectorAll('#main-table td');
 
     let redCount = 0, blueCount = 0, greenCount = 0, totalCount = 0;
 
@@ -76,23 +112,20 @@ function updateTable() {
                 cell.textContent = '';
             } else {
                 totalCount++;
+                cell.className = '';
                 if (value === 0) {
-                    cell.style.color = 'black';
+                    cell.classList.add('black');
                 } else if (redGroup.includes(value)) {
-                    cell.style.color = 'red';
+                    cell.classList.add('red');
                     redCount++;
                 } else if (greenGroup.includes(value)) {
-                    cell.style.color = 'green';
+                    cell.classList.add('green');
                     greenCount++;
                 } else if (blueGroup.includes(value)) {
-                    cell.style.color = 'blue';
+                    cell.classList.add('blue');
                     blueCount++;
-                } else {
-                    cell.style.color = 'black';
                 }
             }
-        } else {
-            cell.style.color = 'black';
         }
     });
 
@@ -135,40 +168,31 @@ function updateChart(redPercentage, bluePercentage, greenPercentage) {
     chart.update();
 }
 
-function saveData() {
-    const rows = document.querySelectorAll('tr');
-    let data = '';
-    rows.forEach(row => {
-        const cells = row.querySelectorAll('td');
-        cells.forEach(cell => {
-            data += cell.textContent + ';';
-        });
-        data += '\n';
-    });
-    window.api.saveData(data);
-}
-
-async function loadData() {
-    const data = await window.api.loadData();
-    if (data) {
-        const rows = data.split('\n');
-        rows.forEach((row, rowIndex) => {
-            const cells = row.split(';');
-            cells.forEach((cell, cellIndex) => {
-                const tableCell = document.querySelectorAll('tr')[rowIndex].querySelectorAll('td')[cellIndex];
-                tableCell.textContent = cell;
-            });
-        });
-        updateTable();
-    }
-}
-
 function clearTable() {
     if (confirm('Tem certeza de que deseja limpar todos os dados?')) {
-        const cells = document.querySelectorAll('td[contenteditable="true"]');
+        const cells = document.querySelectorAll('#main-table td');
         cells.forEach(cell => {
             cell.textContent = '';
+            cell.className = '';
         });
         updateTable();
     }
 }
+
+function deleteSelectedNumber() {
+    const cells = document.querySelectorAll('#main-table td.selected');
+    cells.forEach(cell => {
+        cell.textContent = '';
+        cell.className = '';
+    });
+    updateTable();
+}
+
+document.addEventListener('click', function(event) {
+    if (event.target.tagName === 'TD') {
+        document.querySelectorAll('#main-table td').forEach(cell => {
+            cell.classList.remove('selected');
+        });
+        event.target.classList.add('selected');
+    }
+});
