@@ -10,67 +10,70 @@
 <body>
     <header>
         <h1>Anotações da Roletinha Cachaça</h1>
+        <input type="text" id="number-input" placeholder="Digite um número">
+        <button onclick="addNumber()">Adicionar</button>
+        <button onclick="deleteSelectedNumber()">Excluir Selecionado</button>
     </header>
-    <table>
+    <table id="main-table">
         <tr>
             <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
         </tr>
         <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
         </tr>
         <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
         </tr>
         <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
         </tr>
         <tr>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
+            <td contenteditable="false"></td>
         </tr>
     </table>
     <div>
@@ -79,11 +82,9 @@
         <p>Porcentagem Green: <span id="percent-green">0%</span></p>
     </div>
     <div class="chart-container">
-        <canvas id="percentageChart"></canvas>
+        <canvas id="percentageChart" width="400" height="200"></canvas>
     </div>
     <div>
-        <button onclick="saveData()" disabled>Salvar Dados</button>
-        <button onclick="loadData()" disabled>Carregar Dados</button>
         <button onclick="clearTable()">Limpar Tabela</button>
     </div>
     <script src="script.js"></script>
