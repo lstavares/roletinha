@@ -85,10 +85,10 @@ td[contenteditable="true"] {
 }
 
 button {
-    margin: 0 5px;
-    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    padding: 5px 10px;
+    margin-right: 5px;
 }
 
 button:last-of-type {
@@ -100,18 +100,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-td {
-    width: 51.82px;
-    height: 25.09px;
-    text-align: center;
-    vertical-align: middle;
-    border: 1px solid #000;
-    user-select: none;
-}
+
 .red {
     background-color: red;
 }
@@ -127,12 +116,9 @@ td {
 .selected {
     outline: 2px solid #000;
 }
+
 input[type="text"] {
     width: 200px;
     padding: 5px;
     margin-right: 10px;
-}
-button {
-    padding: 5px 10px;
-    margin-right: 5px;
 }

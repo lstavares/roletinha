@@ -23,6 +23,7 @@ let chart;
 
 function handleInput(event) {
     let value = event.target.value;
+    const input_number = document.querySelectorAll('#number-input');
     
     // Remove non-numeric characters
     value = value.replace(/[^0-9]/g, '');
@@ -32,27 +33,46 @@ function handleInput(event) {
         value = value.substring(1);
     }
     
+    if (!allowedNumbers.includes(value)) {
+        cell.textContent = '';
+    }
+
     event.target.value = value;
 }
 
 function handleKeyPress(event) {
+    const input_number = document.querySelectorAll('#number-input');
+    let value = event.target.value;
+
     if (!/^\d$/.test(event.key)) {
         event.preventDefault();
     }
+
+    if (!isNaN(value) & value.length == 2 & !allowedNumbers.includes(value)) {
+        event.preventDefault();
+        event.target.value = '';
+    }
 }
 
-function addNumber() {
+function addNumber(event) {
     const input = document.getElementById('number-input');
-    const value = input.value;
+    const value = parseInt(input.value);
 
-    if (value === '') {
+    if (input.value === '') {
         alert('Por favor, insira um número.');
+        return;
+    }
+
+    if (isNaN(value) | !allowedNumbers.includes(value)) {
+        alert('Número inválido. Por favor, insira um número válido.');
+        event.preventDefault();
+        event.target.value = '';
         return;
     }
 
     shiftTable();
     const firstCell = document.querySelector('#main-table tr:first-child td:first-child');
-    firstCell.textContent = value;
+    firstCell.textContent = input.value;
     updateTable();
     input.value = '';
 }
