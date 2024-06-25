@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.addEventListener('input', handleInput);
     });
 
+    loadTableFromStorage();
     updateTable();
     createChart();
 });
@@ -72,6 +73,7 @@ function addNumber(event) {
     shiftTable();
     const firstCell = document.querySelector('#main-table tr:first-child td:first-child');
     firstCell.textContent = input.value;
+    saveTableToStorage();
     updateTable();
     input.value = '';
 }
@@ -176,6 +178,7 @@ function clearTable() {
             cell.textContent = '';
             cell.className = '';
         });
+        saveTableToStorage();
         updateTable();
     }
 }
@@ -193,6 +196,7 @@ function deleteSelectedNumber() {
             cells[i].classList.remove('selected', 'red', 'blue', 'green', 'black');
         }
         cells[cells.length - 1].textContent = '';
+        saveTableToStorage();
         updateTable();
     }
 }
@@ -205,3 +209,38 @@ document.addEventListener('click', function(event) {
         event.target.classList.add('selected');
     }
 });
+
+function saveTableToStorage() {
+    const rows = document.querySelectorAll('#main-table tr');
+    const data = [];
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const rowData = [];
+        cells.forEach(cell => {
+            rowData.push(cell.textContent);
+        });
+        data.push(rowData);
+    });
+
+    localStorage.setItem('tableData', JSON.stringify(data));
+}
+
+function loadTableFromStorage() {
+    const data = JSON.parse(localStorage.getItem('tableData'));
+
+    if (data) {
+        const table = document.getElementById('main-table');
+        data.forEach((rowData, rowIndex) => {
+            if (rowIndex >= table.rows.length) {
+                const newRow = table.insertRow();
+                for (let i = 0; i < rowData.length; i++) {
+                    newRow.insertCell();
+                }
+            }
+            rowData.forEach((cellData, cellIndex) => {
+                table.rows[rowIndex].cells[cellIndex].textContent = cellData;
+            });
+        });
+    }
+}
