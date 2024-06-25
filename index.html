@@ -14,7 +14,8 @@
         <p>
             <input type="text" id="number-input" placeholder="Digite um número">
             <button onclick="addNumber()">Adicionar</button>
-            <button onclick="deleteSelectedNumber()">Excluir Selecionado</button>
+            <button class="deletable" onclick="deleteSelectedNumber()">Excluir Selecionado</button>
+            <button class="deletable" onclick="clearTable()">Limpar Tabela</button>
         </p>
     </div>
     <table id="main-table">
@@ -79,16 +80,13 @@
             <td contenteditable="false"></td>
         </tr>
     </table>
-    <div>
+    <div class="percentages-container">
         <p>Porcentagem Red: <span id="percent-red">0%</span></p>
         <p>Porcentagem Blue: <span id="percent-blue">0%</span></p>
         <p>Porcentagem Green: <span id="percent-green">0%</span></p>
     </div>
     <div class="chart-container">
         <canvas id="percentageChart" width="400" height="200"></canvas>
-    </div>
-    <div>
-        <button onclick="clearTable()">Limpar Tabela</button>
     </div>
     <script src="script.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
