@@ -1,7 +1,19 @@
+const redGroup = [1, 5, 8, 10, 11, 16, 20, 23, 24, 30, 33, 36];
+const greenGroup = [3, 7, 9, 12, 14, 18, 22, 26, 28, 29, 31, 35];
+const blueGroup = [2, 4, 6, 13, 15, 17, 19, 21, 25, 27, 32, 34];
+const allowedNumbers = [...redGroup, ...greenGroup, ...blueGroup, 0];
+
+let chart;
+
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('number-input');
     input.addEventListener('keypress', handleKeyPress);
     input.addEventListener('input', handleInput);
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            addNumber();
+        }
+    });
 
     const cells = document.querySelectorAll('td[contenteditable="true"]');
 
@@ -14,16 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createChart();
 });
 
-const redGroup = [1, 5, 8, 10, 11, 16, 20, 23, 24, 30, 33, 36];
-const greenGroup = [3, 7, 9, 12, 14, 18, 22, 26, 28, 29, 31, 35];
-const blueGroup = [2, 4, 6, 13, 15, 17, 19, 21, 25, 27, 32, 34];
-const allowedNumbers = [...redGroup, ...greenGroup, ...blueGroup, 0];
-
-let chart;
-
 function handleInput(event) {
     let value = event.target.value;
-    const input_number = document.querySelectorAll('#number-input');
     
     // Remove non-numeric characters
     value = value.replace(/[^0-9]/g, '');
@@ -32,16 +36,11 @@ function handleInput(event) {
     if (value.length > 1 && value[0] === '0') {
         value = value.substring(1);
     }
-    
-    if (!allowedNumbers.includes(value)) {
-        cell.textContent = '';
-    }
 
     event.target.value = value;
 }
 
 function handleKeyPress(event) {
-    const input_number = document.querySelectorAll('#number-input');
     let value = event.target.value;
 
     if (!/^\d$/.test(event.key)) {
@@ -164,8 +163,10 @@ function createChart() {
 }
 
 function updateChart(redPercentage, bluePercentage, greenPercentage) {
-    chart.data.datasets[0].data = [redPercentage, bluePercentage, greenPercentage];
-    chart.update();
+    if(chart != undefined){
+        chart.data.datasets[0].data = [redPercentage, bluePercentage, greenPercentage];
+        chart.update();
+    }
 }
 
 function clearTable() {
