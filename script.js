@@ -180,12 +180,20 @@ function clearTable() {
 }
 
 function deleteSelectedNumber() {
-    const cells = document.querySelectorAll('#main-table td.selected');
-    cells.forEach(cell => {
-        cell.textContent = '';
-        cell.className = '';
-    });
-    updateTable();
+    const selectedCell = document.querySelector('#main-table td.selected');
+    const rows = document.querySelectorAll('#main-table tr');
+
+    if (selectedCell) {
+        const cells = Array.from(document.querySelectorAll('#main-table td'));
+        const selectedIndex = cells.indexOf(selectedCell);
+
+        for (let i = selectedIndex; i < cells.length - 1; i++) {
+            cells[i].textContent = cells[i + 1].textContent;
+            cells[i].classList.remove('selected', 'red', 'blue', 'green', 'black');
+        }
+        cells[cells.length - 1].textContent = '';
+        updateTable();
+    }
 }
 
 document.addEventListener('click', function(event) {
