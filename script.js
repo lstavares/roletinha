@@ -45,7 +45,7 @@ function handleKeyPress(event) {
         event.preventDefault();
     }
 
-    if (!isNaN(value) & value.length == 2 & !allowedNumbers.includes(value)) {
+    if (!isNaN(value) & value.length === 2 & !allowedNumbers.includes(value)) {
         event.preventDefault();
         event.target.value = '';
     }
@@ -79,22 +79,13 @@ function shiftTable() {
     const rows = document.querySelectorAll('#main-table tr');
     let prevValue = null;
 
-    rows.forEach(row => {
+    for (let row of rows) {
         const cells = row.querySelectorAll('td');
-        cells.forEach(cell => {
+        for (let cell of cells) {
             const temp = cell.textContent;
             cell.textContent = prevValue;
             prevValue = temp;
-        });
-    });
-
-    if (rows[rows.length - 1].querySelector('td:last-child').textContent !== '') {
-        const newRow = document.createElement('tr');
-        for (let i = 0; i < 10; i++) {
-            const newCell = document.createElement('td');
-            newRow.appendChild(newCell);
         }
-        document.getElementById('main-table').appendChild(newRow);
     }
 }
 
