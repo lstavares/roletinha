@@ -3,8 +3,6 @@ const greenGroup = [3, 7, 9, 12, 14, 18, 22, 26, 28, 29, 31, 35];
 const blueGroup = [2, 4, 6, 13, 15, 17, 19, 21, 25, 27, 32, 34];
 const allowedNumbers = [...redGroup, ...greenGroup, ...blueGroup, 0];
 
-let chart;
-
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('number-input');
     input.addEventListener('keypress', handleKeyPress);
@@ -24,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadTableFromStorage();
     updateTable();
-    createChart();
 });
 
 function handleInput(event) {
@@ -137,38 +134,6 @@ function updateTable() {
     document.getElementById('percent-red').textContent = redPercentage.toFixed(2) + '%';
     document.getElementById('percent-blue').textContent = bluePercentage.toFixed(2) + '%';
     document.getElementById('percent-green').textContent = greenPercentage.toFixed(2) + '%';
-
-    updateChart(redPercentage, bluePercentage, greenPercentage);
-}
-
-function createChart() {
-    const ctx = document.getElementById('percentageChart').getContext('2d');
-    chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Green'],
-            datasets: [{
-                label: 'Porcentagem',
-                data: [0, 0, 0],
-                backgroundColor: ['red', 'blue', 'green']
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100
-                }
-            }
-        }
-    });
-}
-
-function updateChart(redPercentage, bluePercentage, greenPercentage) {
-    if(chart != undefined){
-        chart.data.datasets[0].data = [redPercentage, bluePercentage, greenPercentage];
-        chart.update();
-    }
 }
 
 function clearTable() {
